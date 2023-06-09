@@ -1,17 +1,21 @@
+import pygame
+
 class Snake:
-  def __init__(self, x, y, speed_x, speed_y):
+  def __init__(self, x, y, screen, fill_color):
     self.x = x
     self.y = y
-    self.speed_x = speed_x
-    self.speed_y = speed_y
+    self.speed_x = 10
+    self.speed_y = 10
+    self.screen = screen
+    self.fill_color = fill_color
 
   def update(self):
     self.x += self.speed_x
     self.y += self.speed_y
 
-  def draw(self, screen, fill_color):
+  def draw(self):
     snake = pygame.Rect(self.x, self.y, 10, 10)
-    pygame.draw.rect(screen, fill_color, snake)
+    pygame.draw.rect(self.screen, self.fill_color, snake)
 
   def handle_event(self, event):
     if event.type == pygame.KEYDOWN:
