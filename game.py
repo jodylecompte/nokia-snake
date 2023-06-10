@@ -2,6 +2,7 @@ import pygame, sys
 from pygame.locals import QUIT
 
 from src.snake import Snake
+from src.apple import Apple
 
 BACKGROUND_COLOR = pygame.Color(184, 194, 2)
 FILL_COLOR = pygame.Color(112, 96, 1)
@@ -27,15 +28,17 @@ class Game:
     self.font_large = pygame.font.SysFont(None, 36)
     self.font_small = pygame.font.SysFont(None, 20)
 
-    self.snake = Snake(100, 100, self.screen, FILL_COLOR)
-
-  def draw_base_screen(self):
-    self.screen.fill(BACKGROUND_COLOR)
-
     rect_width = self.screen.get_width() - 2 * self.game_margin
     rect_height = self.screen.get_height() - 2 * self.game_margin
 
     self.game_area = pygame.Rect(self.game_margin, self.game_margin, rect_width, rect_height)
+
+    self.snake = Snake(100, 100, self.screen, FILL_COLOR, self)
+    self.apple = Apple(self.game_area, self.snake)
+
+  def draw_base_screen(self):
+    self.screen.fill(BACKGROUND_COLOR)
+
     pygame.draw.rect(self.screen, FILL_COLOR, self.game_area, 2)
 
     text_rendered = self.font_large.render("Snake", True, FILL_COLOR)
@@ -83,7 +86,9 @@ class Game:
     score_text_width = score_text_rendered.get_width()
     score_text_x = (400 - score_text_width) // 2
     
-    self.screen.blit(score_text_rendered, (score_text_x, 500 - 25)) 
+    self.screen.blit(score_text_rendered, (score_text_x, 500 - 25))
+
+    self.apple.draw()
 
   def run(self):
     while True:
@@ -94,6 +99,11 @@ class Game:
       if self.game_state == 'running':
         self.draw_game_screen()
         self.snake.draw()
+
+        if self.apple.check_collision():
+          self.score += 1
+          self.apple.regenerate()
+          self.snake.grow()
         
         # TODO - Extract to snake class
         if self.snake.x < self.game_area.left or self.snake.x + 10 > self.game_area.right or \
