@@ -8,7 +8,7 @@ FILL_COLOR = pygame.Color(112, 96, 1)
 
 class Game:
   def __init__(self):
-    self.gameState = 'running'
+    self.game_state = 'running'
     self.score = 0;
 
     self.game_width = 400
@@ -91,34 +91,47 @@ class Game:
 
       self.draw_base_screen()
 
-      if self.gameState == 'running':
+      if self.game_state == 'running':
         self.draw_game_screen()
         self.snake.draw()
-      elif self.gameState == 'paused':
+        
+        # TODO - Extract to snake class
+        if self.snake.x < self.game_area.left or self.snake.x + 10 > self.game_area.right or \
+        self.snake.y < self.game_area.top or self.snake.y + 10 > self.game_area.bottom:
+            self.game_state = 'game_over'
+
+      elif self.game_state == 'paused':
         self.draw_paused_screen()
-      elif self.gameState == 'game_over':
+      elif self.game_state == 'game_over':
         self.draw_game_over_screen()
 
-
-      # TODO - Extract to snake class
-      if self.snake.x < self.game_area.left or self.snake.x + 10 > self.game_area.right or self.snake.y < self.game_area.top or self.snake.y + 10 > self.game_area.bottom:
-        pygame.quit()
-        sys.exit()
-
+      
+      # This entire section is dreadful and needs to be re-worked. Going to ask people on Twitter to 
+      # roast my code  
       for event in pygame.event.get():
           if event.type == QUIT:
               pygame.quit()
               sys.exit()
 
-          # Motion Events
           if event.type == pygame.KEYDOWN:
+            if self.game_state == 'running':
+              self.snake.handle_event(event)
+            
             if event.key == pygame.K_p:
-              if self.gameState == 'running':
-                self.gameState = 'paused'
+              if self.game_state == 'running':
+                self.game_state = 'paused'
               else:
-                self.gameState = 'running'
+                self.game_state = 'running'
 
-            # self.snake.handle_event(event)
+            if self.game_state == 'game_over':
+              if event.key == pygame.K_q:
+                pygame.quit()
+                sys.exit()
+
+              if event.key == pygame.K_r:
+                self.game_state = 'running'
+                self.score = 0
+                self.snake.reset() 
 
       pygame.display.update()
 
