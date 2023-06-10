@@ -52,19 +52,30 @@ class Game:
     paused_text_x = (self.screen.get_width() - paused_text_width) // 2
     paused_text_y = (self.screen.get_height() - paused_text_height) // 2 - 20
 
-    # Render and center the "Press 'p' to return to game" text using font_small
     return_text_rendered = self.font_small.render("Press 'p' to return to game", True, FILL_COLOR)
     return_text_width = return_text_rendered.get_width()
     return_text_height = return_text_rendered.get_height()
     return_text_x = (self.screen.get_width() - return_text_width) // 2
     return_text_y = (self.screen.get_height() - return_text_height) // 2 + 20
 
-    # Draw the texts on the screen
     self.screen.blit(paused_text_rendered, (paused_text_x, paused_text_y))
     self.screen.blit(return_text_rendered, (return_text_x, return_text_y))
 
   def draw_game_over_screen(self):
-    pass
+    game_over_text_rendered = self.font_large.render("Game Over", True, FILL_COLOR)
+    game_over_text_width = game_over_text_rendered.get_width()
+    game_over_text_height = game_over_text_rendered.get_height()
+    game_over_text_x = (self.screen.get_width() - game_over_text_width) // 2
+    game_over_text_y = (self.screen.get_height() - game_over_text_height) // 2 - 20
+
+    return_text_rendered = self.font_small.render("Press 'q' to quit or 'r' to retry", True, FILL_COLOR)
+    return_text_width = return_text_rendered.get_width()
+    return_text_height = return_text_rendered.get_height()
+    return_text_x = (self.screen.get_width() - return_text_width) // 2
+    return_text_y = (self.screen.get_height() - return_text_height) // 2 + 20
+
+    self.screen.blit(game_over_text_rendered, (game_over_text_x, game_over_text_y))
+    self.screen.blit(return_text_rendered, (return_text_x, return_text_y))
 
   def draw_game_screen(self):
     font = pygame.font.SysFont(None, 24)
