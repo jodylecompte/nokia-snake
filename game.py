@@ -92,7 +92,7 @@ class Game:
 
   def run(self):
     while True:
-      self.clock.tick(10)
+      self.clock.tick(20)
 
       self.draw_base_screen()
 
