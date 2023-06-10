@@ -37,7 +37,7 @@ rect_height = screen.get_height() - 2 * game_area_margin
 game_area = pygame.Rect(game_area_margin, game_area_margin, rect_width, rect_height)
 
 while True:
-    clock.tick(30)
+    clock.tick(10)
 
     screen.fill(background_color)
     pygame.draw.rect(screen, fill_color, game_area, 2)
@@ -50,6 +50,11 @@ while True:
 
 
     snake.draw()
+
+    if snake.x < game_area.left or snake.x + 10 > game_area.right or snake.y < game_area.top or snake.y + 10 > game_area.bottom:
+    # Snake has collided with the boundaries of the game area
+        pygame.quit()
+        sys.exit()
 
     for event in pygame.event.get():
         if event.type == QUIT:
