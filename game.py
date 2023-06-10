@@ -11,7 +11,6 @@ pygame.display.set_caption('Snake')
 
 background_color = pygame.Color(184, 194, 2)
 fill_color = pygame.Color(112, 96, 1)
-screen.fill(background_color)
 
 snake_x = 100
 snake_y = 100
@@ -20,6 +19,8 @@ snake = Snake(snake_x, snake_y, screen, fill_color)
 
 while True:
     clock.tick(30)
+    
+    screen.fill(background_color)
     snake.draw()
 
     for event in pygame.event.get():
