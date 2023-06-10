@@ -26,6 +26,10 @@ text_rendered = font.render("Snake", True, fill_color)
 text_width = text_rendered.get_width()
 text_x = (400 - text_width) // 2
 
+score_text_rendered = font.render("Score: " + str(score), True, fill_color)
+score_text_width = score_text_rendered.get_width()
+score_text_x = (400 - score_text_width) // 2
+
 game_area_margin = 30
 rect_width = screen.get_width() - 2 * game_area_margin
 rect_height = screen.get_height() - 2 * game_area_margin
@@ -42,6 +46,7 @@ while True:
     # pygame.draw.rect(surf, (0, 100, 255, 155), (0, 0, 162, 100), 21)
 
     screen.blit(text_rendered, (text_x, 5))  # Adjust the vertical position as needed
+    screen.blit(score_text_rendered, (score_text_x, 500 - 25))  # Adjust the vertical position as needed
 
 
     snake.draw()
