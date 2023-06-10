@@ -2,8 +2,8 @@ import pygame
 
 class Snake:
   def __init__(self, x, y, screen, fill_color):
-    self.x = x
-    self.y = y
+    self.x = 100
+    self.y = 100
     self.speed_x = 0
     self.speed_y = 0
     self.screen = screen

@@ -3,69 +3,73 @@ from pygame.locals import QUIT
 
 from src.snake import Snake
 
-pygame.init()
+BACKGROUND_COLOR = pygame.Color(184, 194, 2)
+FILL_COLOR = pygame.Color(112, 96, 1)
 
-clock = pygame.time.Clock()
-screen = pygame.display.set_mode((400, 500))
-pygame.display.set_caption('Snake')
+class Game:
+  def __init__(self):
+    self.gameState = 'running'
+    self.score = 0;
 
-background_color = pygame.Color(184, 194, 2)
-fill_color = pygame.Color(112, 96, 1)
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
+    self.game_width = 400
+    self.game_height = 500
 
-snake_x = 100
-snake_y = 100
+    self.clock = clock = pygame.time.Clock()
 
-score = 0
+    self.bootstrap_pygame()
 
-snake = Snake(snake_x, snake_y, screen, fill_color)
+  def bootstrap_pygame(self):
+    pygame.init()
 
-font = pygame.font.SysFont(None, 36)
-text_rendered = font.render("Snake", True, fill_color)
-text_width = text_rendered.get_width()
-text_x = (400 - text_width) // 2
+    self.screen = pygame.display.set_mode((400, 500))
+    pygame.display.set_caption('Snake')
 
-score_text_rendered = font.render("Score: " + str(score), True, fill_color)
-score_text_width = score_text_rendered.get_width()
-score_text_x = (400 - score_text_width) // 2
+  def run(self):
+    print("Snake")
+    while True:
+      self.clock.tick(10)
 
-game_area_margin = 30
-rect_width = screen.get_width() - 2 * game_area_margin
-rect_height = screen.get_height() - 2 * game_area_margin
+      self.screen.fill(BACKGROUND_COLOR)
+      game_area_margin = 30
+      rect_width = self.screen.get_width() - 2 * game_area_margin
+      rect_height = self.screen.get_height() - 2 * game_area_margin
 
-game_area = pygame.Rect(game_area_margin, game_area_margin, rect_width, rect_height)
+      game_area = pygame.Rect(game_area_margin, game_area_margin, rect_width, rect_height)
+      pygame.draw.rect(self.screen, FILL_COLOR, game_area, 2)
 
-while True:
-    clock.tick(10)
+      snake = Snake(100, 100, self.screen, FILL_COLOR)
 
-    screen.fill(background_color)
-    pygame.draw.rect(screen, fill_color, game_area, 2)
+      font = pygame.font.SysFont(None, 36)
+      text_rendered = font.render("Snake", True, FILL_COLOR)
+      text_width = text_rendered.get_width()
+      text_x = (400 - text_width) // 2
 
-    # surf = pygame.Surface((162, 100), fill_color)
-    # pygame.draw.rect(surf, (0, 100, 255, 155), (0, 0, 162, 100), 21)
+      score_text_rendered = font.render("Score: " + str(self.score), True, FILL_COLOR)
+      score_text_width = score_text_rendered.get_width()
+      score_text_x = (400 - score_text_width) // 2
 
-    screen.blit(text_rendered, (text_x, 5))  # Adjust the vertical position as needed
-    screen.blit(score_text_rendered, (score_text_x, 500 - 25))  # Adjust the vertical position as needed
+      
+      self.screen.blit(text_rendered, (text_x, 5))  # Adjust the vertical position as needed
+      self.screen.blit(score_text_rendered, (score_text_x, 500 - 25))  # Adjust the vertical position as needed
 
+      snake.draw()
 
-    snake.draw()
-
-    if snake.x < game_area.left or snake.x + 10 > game_area.right or snake.y < game_area.top or snake.y + 10 > game_area.bottom:
-    # Snake has collided with the boundaries of the game area
+      if snake.x < game_area.left or snake.x + 10 > game_area.right or snake.y < game_area.top or snake.y + 10 > game_area.bottom:
         pygame.quit()
         sys.exit()
 
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
+      for event in pygame.event.get():
+          if event.type == QUIT:
+              pygame.quit()
+              sys.exit()
 
-        # Motion Events
-        if event.type == pygame.KEYDOWN:
-          snake.handle_event(event)
+          # Motion Events
+          if event.type == pygame.KEYDOWN:
+            snake.handle_event(event)
 
-    pygame.display.update()
+      pygame.display.update()
 
+if __name__ == "__main__":
+  game = Game()
+  game.run()
 
-    
