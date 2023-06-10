@@ -4,6 +4,8 @@ from pygame.locals import QUIT
 from src.snake import Snake
 
 pygame.init()
+
+clock = pygame.time.Clock()
 screen = pygame.display.set_mode((300, 400))
 pygame.display.set_caption('Snake')
 
@@ -17,6 +19,7 @@ snake_y = 100
 snake = Snake(snake_x, snake_y, screen, fill_color)
 
 while True:
+    clock.tick(30)
     snake.draw()
 
     for event in pygame.event.get():

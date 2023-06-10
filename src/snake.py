@@ -4,8 +4,8 @@ class Snake:
   def __init__(self, x, y, screen, fill_color):
     self.x = x
     self.y = y
-    self.speed_x = 10
-    self.speed_y = 10
+    self.speed_x = 0
+    self.speed_y = 0
     self.screen = screen
     self.fill_color = fill_color
 
@@ -14,6 +14,8 @@ class Snake:
     self.y += self.speed_y
 
   def draw(self):
+    self.update()
+
     snake = pygame.Rect(self.x, self.y, 10, 10)
     pygame.draw.rect(self.screen, self.fill_color, snake)
 
